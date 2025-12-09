@@ -24,7 +24,7 @@ struct image {
 };
 
 struct Color {
-    int red, green, blue;
+    unsigned char red, green, blue;
 };
 
 #endif //MINI_PROJET_UTILS_H

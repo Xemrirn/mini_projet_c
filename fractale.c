@@ -21,7 +21,7 @@ void drawImage() {
 
             // struct Pixel pixel = {120, c*3, 255};
 
-            struct Color color = palette(c * 5);
+            struct Color color = palette(c * 10);
 
             fwrite(&color,  1, 3, fptr);
         }
