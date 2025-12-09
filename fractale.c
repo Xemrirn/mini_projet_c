@@ -1,26 +1,7 @@
 #include "fractale.h"
-#include <complex.h>
+#include "utils.h"
 #include <stdio.h>
-#include <math.h>
 #include "main.h"
-
-int convergence(float x, float y) {
-    float complex Z = CMPLXF(x, y);
-    float complex U = Z;
-
-    float r2 = sqrtf(crealf(U) * crealf(U) + cimagf(U) * cimagf(U));
-    if (r2 >= 2.0f) return 0;
-
-    for (int i = 1; i <= 85; i++) {
-        U = U*U+Z;
-
-        r2 = sqrtf(crealf(U) * crealf(U) + cimagf(U) * cimagf(U));
-        if (r2 >= 2.0f) {
-            return i;
-        }
-    }
-    return 0;
-}
 
 void drawImage() {
     FILE *fptr = fopen("fractale.ppm", "w");
@@ -46,10 +27,4 @@ void drawImage() {
     }
 
     fclose(fptr);
-}
-
-int main() {
-    drawImage();
-
-    return 0;
 }

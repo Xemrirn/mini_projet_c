@@ -1,12 +1,7 @@
 #include <stdio.h>
 #include "main.h"
-
-int main() {
-    squareImage();
-    roundImage();
-
-    return 0;
-}
+#include "fractale.h"
+#include "utils.h"
 
 void squareImage() {
     FILE *fptr = fopen("img.ppm", "w");
@@ -49,4 +44,12 @@ void roundImage() {
     }
 
     fclose(fptr);
+}
+
+int main() {
+    squareImage();
+    roundImage();
+    drawImage();
+
+    return 0;
 }
