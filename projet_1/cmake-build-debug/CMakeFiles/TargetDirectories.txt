@@ -1,0 +1,3 @@
+/Users/callista/ISEN/C/mini_projet/cmake-build-debug/CMakeFiles/mini_projet.dir
+/Users/callista/ISEN/C/mini_projet/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/callista/ISEN/C/mini_projet/cmake-build-debug/CMakeFiles/rebuild_cache.dir
