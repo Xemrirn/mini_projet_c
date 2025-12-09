@@ -8,6 +8,8 @@
 
 int convergence(float x, float y);
 
+struct Color palette(int c);
+
 struct Pixel {
     unsigned char r;
     unsigned char g;
@@ -19,6 +21,10 @@ struct image {
     int width;
     int height;
     int intensity;
+};
+
+struct Color {
+    int red, green, blue;
 };
 
 #endif //MINI_PROJET_UTILS_H

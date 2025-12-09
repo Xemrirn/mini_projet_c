@@ -50,6 +50,5 @@ int main() {
     squareImage();
     roundImage();
     drawImage();
-
     return 0;
 }
