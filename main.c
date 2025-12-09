@@ -47,8 +47,10 @@ void roundImage() {
 }
 
 int main() {
-    squareImage();
-    roundImage();
-    drawImage();
+    // squareImage();
+    // roundImage();
+    // drawImage();
+    mandel_pic mandel = new_mandel(900, 600, 1, 600, 1);
+    save_mandel(mandel, "mandel.ppm");
     return 0;
 }

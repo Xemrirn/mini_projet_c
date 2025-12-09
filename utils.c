@@ -2,6 +2,7 @@
 #include <complex.h>
 #include <math.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 int convergence(float x, float y) {
     float complex Z = CMPLXF(x, y);
@@ -60,27 +61,53 @@ color palette(int c) {
     return color;
 }
 
+#include <stdlib.h>
+
 mandel_pic new_mandel(int width, int height, double Xmin, double Ymin, double scale) {
     int Xmax = Xmin + (scale * 3.0);
     int Ymax = Ymin + (scale * 3.0 * height / width);
     int pixWidth = scale * (3.0 / width);
-    int * cnvgr = 0;
+    int *cnvgr = malloc(sizeof(int) * width * height);
+    if (!cnvgr) {
+        mandel_pic empty = {0};
+        return empty;
+    }
 
     const double xStep = (double)(X2_VALUE - X1_VALUE) / width;
     const double yStep = (double)(Y2_VALUE - Y1_VALUE) / height;
 
-    for (int j= 0; j < 600; j++) {
-        for (int i = 0; i < 900; i++) {
+    for (int j = 0; j < height; j++) {
+        for (int i = 0; i < width; i++) {
             double x = (double)X1_VALUE + i * xStep;
             double y = (double)Y1_VALUE + j * yStep;
 
-            double c = convergence(x, y);
-
-            cnvgr[i+j] = c;
+            int c = convergence((float)x, (float)y);
+            cnvgr[j * width + i] = c;
         }
     }
 
     mandel_pic newMandel = {width, height, Xmin, Ymin, Xmax, Ymax, scale, pixWidth, cnvgr};
-
     return newMandel;
+}
+
+
+void save_mandel(mandel_pic mandel, char* filename) {
+    FILE *fptr = fopen(filename, "w");
+
+    struct image img = {"P6", mandel.width, mandel.height, 255};
+
+    fprintf(fptr, "%s\n%d %d\n%d\n", img.fileSign, img.width, img.height, img.intensity);
+
+    for (int j= 0; j < img.height; j++) {
+        for (int i = 0; i < img.width; i++) {
+
+            int c = mandel.convrg[j*mandel.width+i];
+
+            struct Color color = palette(c * 10);
+            fwrite(&color,  1, 3, fptr);
+        }
+    }
+
+    free(mandel.convrg);
+    fclose(fptr);
 }

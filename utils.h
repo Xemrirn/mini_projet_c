@@ -12,6 +12,8 @@ struct Color palette(int c);
 
 struct mandel_pic new_mandel(int width, int height, double Xmin, double Ymin, double scale);
 
+void save_mandel(struct mandel_pic, char* filename);
+
 struct Pixel {
     unsigned char r;
     unsigned char g;
