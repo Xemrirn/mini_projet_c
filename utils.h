@@ -10,6 +10,8 @@ int convergence(float x, float y);
 
 struct Color palette(int c);
 
+struct mandel_pic new_mandel(int width, int height, double Xmin, double Ymin, double scale);
+
 struct Pixel {
     unsigned char r;
     unsigned char g;
@@ -23,8 +25,18 @@ struct image {
     int intensity;
 };
 
-struct Color {
+typedef struct Color {
     unsigned char red, green, blue;
-};
+} color;
+
+typedef struct mandel_pic {
+    int width, height;
+    double Xmin, Ymin;
+    double Xmax, Ymax;
+    double scale;
+    double pixWidth;
+    int * convrg;
+} mandel_pic;
+
 
 #endif //MINI_PROJET_UTILS_H

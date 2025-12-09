@@ -21,7 +21,7 @@ int convergence(float x, float y) {
     return 0;
 }
 
-struct Color palette(int c) {
+color palette(int c) {
 
     struct Color color = {};
 
@@ -58,4 +58,29 @@ struct Color palette(int c) {
     }
 
     return color;
+}
+
+mandel_pic new_mandel(int width, int height, double Xmin, double Ymin, double scale) {
+    int Xmax = Xmin + (scale * 3.0);
+    int Ymax = Ymin + (scale * 3.0 * height / width);
+    int pixWidth = scale * (3.0 / width);
+    int * cnvgr = 0;
+
+    const double xStep = (double)(X2_VALUE - X1_VALUE) / width;
+    const double yStep = (double)(Y2_VALUE - Y1_VALUE) / height;
+
+    for (int j= 0; j < 600; j++) {
+        for (int i = 0; i < 900; i++) {
+            double x = (double)X1_VALUE + i * xStep;
+            double y = (double)Y1_VALUE + j * yStep;
+
+            double c = convergence(x, y);
+
+            cnvgr[i+j] = c;
+        }
+    }
+
+    mandel_pic newMandel = {width, height, Xmin, Ymin, Xmax, Ymax, scale, pixWidth, cnvgr};
+
+    return newMandel;
 }
