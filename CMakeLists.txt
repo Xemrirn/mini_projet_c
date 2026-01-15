@@ -10,4 +10,6 @@ add_executable(mini_projet
         main.h
         fractale.c
         fractale.h
-        utils.h)
+        utils.h
+        picture.h
+        picture.c)
