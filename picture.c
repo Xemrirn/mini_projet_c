@@ -84,34 +84,109 @@ void add_pic_background(picture *pic, color background_color) {
 void sierpinski(picture *pic, int x, int y, int size, color c) {
     if (!pic || !pic->pixels) return;
 
-    double triangle_height = size * sqrt(3.0) / 2.0;
+    if (size < 75) {
+        double triangle_height = size * sqrt(3.0) / 2.0;
 
-    double left_x = x + size - 1;
-    double left_y = y;
+        double left_x = x + size - 1;
+        double left_y = y;
 
-    double right_x = x + size / 2.0;
-    double right_y = y - triangle_height;
+        double right_x = x + size / 2.0;
+        double right_y = y - triangle_height;
 
-    int x0 = (int)round(x);
-    int y0 = (int)round(y);
-    int x1 = (int)round(left_x);
-    int y1 = (int)round(left_y);
-    int x2 = (int)round(right_x);
-    int y2 = (int)round(right_y);
+        int x0 = (int)round(x);
+        int y0 = (int)round(y);
+        int x1 = (int)round(left_x);
+        int y1 = (int)round(left_y);
+        int x2 = (int)round(right_x);
+        int y2 = (int)round(right_y);
 
-    draw_line(pic, x0, y0, x1, y1, c);
-    draw_line(pic, x0, y0, x2, y2, c);
-    draw_line(pic, x1, y1, x2, y2, c);
+        draw_line(pic, x0, y0, x1, y1, c);
+        draw_line(pic, x0, y0, x2, y2, c);
+        draw_line(pic, x1, y1, x2, y2, c);
 
-    printf("sommet %d, %d\n", x0, y0);
-    printf("left %d, %d\n", x1, y1);
-    printf("right %d, %d\n", x2, y2);
+        return;
+    }
+
+    int half = size / 2;
+    int red = rand() % 255;
+    int blue = rand() % 255;
+    int green = rand() % 255;
+    c.red = red;
+    c.green = green;
+    c.blue = blue;
+    sierpinski(pic, x, y, half, c);
+    sierpinski(pic, x + half, y, half, c);
+    sierpinski(pic, x + size/4, (int)round(y - size * sqrt(3.0) / 4.0), half, c);
 }
 
-void sierpinski_div(picture *pic, int x, int y, int size, color c) {
-    if (!pic || !pic->pixels) return;
 
-    sierpinski(pic, x, y, size/2, c);
-    sierpinski(pic, x + size/2, y, size/2, c);
-    sierpinski(pic, x + size/2, y-size*sqrt(3)/4, size/2, c);
+void drawCat() {
+    FILE *file = fopen("cat.txt", "r");
+    float x1,y1,x2,y2;
+
+    picture cat = new_pic(500, 500);
+    color c = {255, 127, 100};
+    while (fscanf(file, "%f %f %f %f", &x1, &y1, &x2, &y2) != EOF) {
+        draw_line(&cat, x1, y1, x2, y2, c);
+    }
+
+    fclose(file);
+    save_pic(cat, "cat.png");
+}
+
+
+vec *read_vector_file(char *filename) {
+    vec *firstElement = NULL;
+    FILE *file = fopen(filename, "r");
+
+    float x1, y1, x2, y2;
+
+    while (fscanf(file, "%f %f %f %f", &x1, &y1, &x2, &y2) != EOF) {
+        vec *v = malloc(sizeof(vec));
+
+        v->x1 = x1;
+        v->y1 = y1;
+        v->x2 = x2;
+        v->y2 = y2;
+        v->next = firstElement;
+        firstElement = v;
+    }
+
+    fclose(file);
+    return firstElement;
+}
+
+void draw_vector(vec *vector, picture *pic, color c) {
+    while (vector != NULL) {
+        draw_line(pic, vector->x1, vector->y1, vector->x2, vector->y2, c);
+        vector = vector->next;
+    }
+}
+
+void scale_vector(vec *vector, double scale) {
+    while (vector != NULL) {
+        vector->x1 = vector->x1 * scale;
+        vector->y1 = vector->y1 * scale;
+        vector->x2 = vector->x2 * scale;
+        vector->y2 = vector->y2 * scale;
+        vector = vector->next;
+    }
+}
+
+void shift_vector(vec *vector, double x, double y) {
+    while (vector != NULL) {
+        vector->x1 += x;
+        vector->y1 += y;
+        vector->x2 += x;
+        vector->y2 += y;
+        vector = vector->next;
+    }
+}
+
+void flip_vector(vec *vector) {
+    while (vector != NULL) {
+        vector->x1 = -vector->x1;
+        vector->x2 = -vector->x2;
+        vector = vector->next;
+    }
 }

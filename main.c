@@ -1,37 +1,61 @@
 #include <stdio.h>
 #include "main.h"
+
+#include <stdlib.h>
+
 #include "picture.h"
+#include "utils.h"
 
 int main() {
     // squareImage();
     // roundImage();
 
-    picture pic = new_pic(350, 400);
-    picture square = new_pic(10, 10);
-    color red = {255, 0, 0};
-    color blue = {0, 0, 255};
-    color green = {0, 255, 0};
-    color magenta = {255, 0, 255};
-    color white = {255, 255, 255};
-    color yellow = {255, 255, 0};
+    // picture pic = new_pic(350, 400);
+    // picture square = new_pic(10, 10);
+    // color red = {255, 0, 0};
+    // color blue = {0, 0, 255};
+    // color green = {0, 255, 0};
+    // color magenta = {255, 0, 255};
+    // color white = {255, 255, 255};
+    // color yellow = {255, 255, 0};
     // for (int i = 0; i < pic.height; i++) {
     //     for (int j = 0; j < pic.width; j++) {
     //         set_pixel(&pic, i, j, c);
     //     }
     // }
-    add_pic_background(&pic, white);
-    draw_line(&square, 2, 2, 7, 7, red);
-    draw_line(&square, 2, 5, 7, 2, blue);
-    draw_line(&square, 1, 2, 1, 7, green);
-    draw_line(&square, 8, 2, 8, 7, green);
-    draw_line(&square, 2, 1, 7, 1, magenta);
-    draw_line(&square, 2, 8, 7, 8, magenta);
+    // add_pic_background(&pic, white);
+    // draw_line(&square, 2, 2, 7, 7, red);
+    // draw_line(&square, 2, 5, 7, 2, blue);
+    // draw_line(&square, 1, 2, 1, 7, green);
+    // draw_line(&square, 8, 2, 8, 7, green);
+    // draw_line(&square, 2, 1, 7, 1, magenta);
+    // draw_line(&square, 2, 8, 7, 8, magenta);
 
     // sierpinski(&pic, 0, 349, 400, magenta);
-    sierpinski_div(&pic, 0, 349, 400, magenta);
+    // sierpinski(&pic, 0, 349, 400, magenta);
 
-    save_pic(pic, "pic.ppm");
-    save_pic(square, "square.ppm");
+    // save_pic(pic, "pic.ppm");
+    // save_pic(square, "square.ppm");
+    // drawCat();
+
+    picture cat = new_pic(1000, 1000);
+    color c = {200, 175, 100};
+
+    vec *vector = read_vector_file("cat.txt");
+    vec *vect = read_vector_file("cat.txt");
+    // shift_vector(vector, 120, 250);
+    scale_vector(vect, 0.5);
+    flip_vector(vect);
+    shift_vector(vect, 520, 250);
+    draw_vector(vector, &cat, c);
+    draw_vector(vect, &cat, c);
+
+    picture kang = new_pic(100, 100);
+    vec *kang_vector = read_vector_file("kang.txt");
+    draw_vector(kang_vector, &kang, c);
+
+    save_pic(cat, "cat.png");
+    save_pic(kang, "kang.png");
 
     return 0;
 }

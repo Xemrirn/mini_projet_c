@@ -20,4 +20,16 @@ void sierpinski(picture *pic, int x, int y, int size, color c);
 
 void sierpinski_div(picture *pic, int x, int y, int size, color c);
 
+void drawCat();
+
+vec *read_vector_file(char *filename);
+
+void draw_vector(vec *vector, picture *pic, color c);
+
+void scale_vector(vec *vector, double scale);
+
+void shift_vector(vec *vector, double x, double y);
+
+void flip_vector(vec *vector);
+
 #endif //MINI_PROJET_PICTURE_H

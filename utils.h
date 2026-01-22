@@ -21,4 +21,13 @@ typedef struct Image {
     int intensity;
 }image;
 
+typedef struct vector {
+    double x1;
+    double y1;
+    double x2;
+    double y2;
+
+    struct vector *next;
+}vec;
+
 #endif //MINI_PROJET_UTILS_H
